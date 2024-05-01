@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,6 +11,11 @@
 <nav class="navbar navbar-expand navbar-light bg-light">
 	<a class="navbar-brand" th:href="@{/magazines}">iMagazines</a>
 	<form class="form-inline my-2 my-lg-0 ml-auto" method="post" th:action="@{/magazines/}">
+		<p sec:authorize="isAuthenticated()">Profile:
+			<a class="mr-5" th:utext="${#authentication.principal.username}"
+			   th:href="@{/users/profile}"></a>
+		</p>
+
 		<input class="form-control mr-sm-2" type="search" name="request" placeholder="Search" aria-label="Search">
 		<select class="form-control mr-sm-2" name="option">
 			<option value="title">Title</option>

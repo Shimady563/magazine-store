@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class AuthorService implements UserDetailsService {
 
@@ -26,6 +28,12 @@ public class AuthorService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    @Transactional(readOnly = true)
+    public Author getAuthorById(Long id) {
+        return authorRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
     @Transactional
     public void saveAuthorIfNotExists(Author author) {
         if (authorRepository.findByUsername(author.getUsername()).isEmpty()) {
@@ -33,5 +41,10 @@ public class AuthorService implements UserDetailsService {
         } else {
             throw new IllegalArgumentException("User already exists");
         }
+    }
+
+    @Transactional
+    public void updateAuthor(Author author) {
+        authorRepository.save(author);
     }
 }

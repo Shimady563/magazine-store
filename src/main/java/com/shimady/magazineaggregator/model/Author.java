@@ -23,7 +23,8 @@ public class Author implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @NotBlank
+    @Column(name = "username", unique = true)
     private String username;
 
     @NotBlank
@@ -35,7 +36,7 @@ public class Author implements UserDetails {
     private String lastName;
 
     @Email
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -50,6 +51,15 @@ public class Author implements UserDetails {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public Author(Long id, String username, String firstName, String lastName, String email, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.id = id;
+        this.lastName = lastName;
+        this.password = password;
+        this.username = username;
     }
 
     @Override
