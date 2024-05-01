@@ -34,4 +34,9 @@ public class Magazine {
 
     @OneToMany(mappedBy = "magazine")
     private Set<Article> articles;
+
+    public Magazine(String subject, String title) {
+        this.subject = subject;
+        this.title = title;
+    }
 }

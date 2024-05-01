@@ -25,16 +25,15 @@ public class Author {
     private String firstName;
 
     @NotBlank
-    @Column(name = "secondName")
-    private String secondName;
-
-    @NotNull
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
+    @Column(name = "last_name")
+    private String lastName;
 
     @Email
     @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private Set<Magazine> magazines;
