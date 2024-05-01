@@ -9,7 +9,7 @@
 <body>
 <!-- Header -->
 <nav class="navbar navbar-expand navbar-light bg-light">
-	<a class="navbar-brand" href="">Magazines</a>
+	<a class="navbar-brand" th:href="@{/magazines}">iMagazines</a>
 	<form class="form-inline my-2 my-lg-0 ml-auto" method="post" th:action="@{/magazines/}">
 		<input class="form-control mr-sm-2" type="search" name="request" placeholder="Search" aria-label="Search">
 		<select class="form-control mr-sm-2" name="option">
