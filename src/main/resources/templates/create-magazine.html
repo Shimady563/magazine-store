@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Magazine</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand navbar-light bg-light">
+	<a class="navbar-brand" href="">Create Magazine</a>
+</nav>
+
+<div class="container mt-5">
+	<h1>Create Magazine</h1>
+	<form method="post" th:action="@{''}">
+		<div class="form-group">
+			<label for="title">Magazine Title:</label>
+			<input type="text" class="form-control" id="title" name="title" required>
+		</div>
+		<div class="form-group">
+			<label for="theme">Magazine Theme:</label>
+			<input type="text" class="form-control" id="theme" name="theme" required>
+		</div>
+		<div id="articles">
+			<div class="article mb-3">
+				<h4>Article 1</h4>
+				<div class="form-group">
+					<label for="articleTitle1">Article Title:</label>
+					<input type="text" class="form-control" id="articleTitle1" name="articleTitle[]" required>
+				</div>
+				<div class="form-group">
+					<label for="articleContent1">Article Content:</label>
+					<textarea class="form-control" id="articleContent1" name="articleContent[]" required></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="text-right">
+			<button type="button" class="btn btn-primary" id="addArticle">+</button>
+		</div>
+		<button type="submit" class="btn btn-success mt-3">Create Magazine</button>
+	</form>
+</div>
+
+<script>
+	document.getElementById("addArticle").addEventListener("click", function() {
+		let articlesDiv = document.getElementById("articles");
+		let articleCount = articlesDiv.getElementsByClassName("article").length + 1;
+		let newArticle = document.createElement("div");
+		newArticle.classList.add("article", "mb-3");
+		newArticle.innerHTML = `
+            <h4>Article ${articleCount}</h4>
+            <div class="form-group">
+                <label for="articleTitle${articleCount}">Article Title:</label>
+                <input type="text" class="form-control" id="articleTitle${articleCount}" name="articleTitle[]" required>
+            </div>
+            <div class="form-group">
+                <label for="articleContent${articleCount}">Article Content:</label>
+                <textarea class="form-control" id="articleContent${articleCount}" name="articleContent[]" required></textarea>
+            </div>
+        `;
+		articlesDiv.appendChild(newArticle);
+	});
+</script>
+
+</body>
+</html>

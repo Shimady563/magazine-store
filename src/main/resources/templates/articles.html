@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Magazine Articles</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<!-- Header -->
+<nav class="navbar navbar-expand navbar-light bg-light">
+	<a class="navbar-brand" href="">Magazine Articles</a>
+</nav>
+
+<!-- Main Body -->
+<div class="container mt-5">
+	<div class="row">
+		<!-- Magazine Article Cards -->
+		<div class="col-md-4 mb-4" th:each="article : ${articles}">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title" th:utext="${article.title}">
+						<a th:href="@{'/article/' + ${article.id}}">Article Title</a>
+					</h5>
+					<p class="card-text">Theme: <span th:utext="${article.theme}">Theme</span></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

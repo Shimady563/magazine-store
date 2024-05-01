@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Magazines</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Header -->
+<nav class="navbar navbar-expand navbar-light bg-light">
+	<a class="navbar-brand" href="">Magazines</a>
+</nav>
+
+<!-- Main Body -->
+<div class="container mt-5">
+	<div class="row">
+		<!-- Magazine Cards -->
+		<div class="col-md-4 mb-4" th:each="magazine : ${magazines}">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title" th:utext="${magazine.title}">
+						<a th:href="@{'/' + ${magazine.id}}">Magazine Title</a>
+					</h5>
+					<p class="card-text">Theme: <span th:utext="${magazine.subject}">Theme</span></p>
+					<p class="card-text">Author: <span th:utext="${magazine.author}">Author</span></p>
+					<!-- Links for Editing and Deleting Magazine -->
+					<div class="btn-group">
+						<a href="#" class="btn btn-primary">Edit Magazine</a>
+						<a href="#" class="btn btn-danger">Delete Magazine</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
