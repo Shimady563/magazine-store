@@ -3,6 +3,9 @@ package com.shimady.magazineaggregator.service;
 import com.shimady.magazineaggregator.model.Author;
 import com.shimady.magazineaggregator.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +32,12 @@ public class AuthorService implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
+    public Author getAuthorByUsername(String username) {
+        return authorRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Transactional(readOnly = true)
     public Author getAuthorById(Long id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -46,5 +55,7 @@ public class AuthorService implements UserDetailsService {
     @Transactional
     public void updateAuthor(Author author) {
         authorRepository.save(author);
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(author, null, author.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 }

@@ -95,11 +95,7 @@ public class AuthorController {
                 passwordEncoder.encode(password)
         );
 
-        System.out.println(password);
         authorService.updateAuthor(author);
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(author, null, author.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
-
         attributes.addFlashAttribute("message", "Credentials are successfully changed");
         return "redirect:/users/profile";
     }
