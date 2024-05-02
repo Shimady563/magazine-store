@@ -1,9 +1,13 @@
 package com.shimady.magazineaggregator.service;
 
 import com.shimady.magazineaggregator.model.Article;
+import com.shimady.magazineaggregator.model.Magazine;
 import com.shimady.magazineaggregator.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ArticleService {
@@ -19,5 +23,14 @@ public class ArticleService {
     public Article getArticleById(Long id) {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Article> getAllArticlesByOptionAndMagazine(Magazine magazine, String request, String option) {
+        return switch (option) {
+            case "title" -> articleRepository.findALlByMagazineAndTitleStartingWithIgnoreCase(magazine, request);
+            case "theme" -> articleRepository.findALlBByMagazineAndThemeStartingWithIgnoreCase(magazine, request);
+            default -> articleRepository.findAllByMagazine(magazine);
+        };
     }
 }

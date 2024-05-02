@@ -38,7 +38,8 @@ public class MagazineController {
     @GetMapping("/{id}")
     public String getMagazineById(@PathVariable Long id, Model model) {
         Magazine magazine = magazineService.getMagazineWithArticlesById(id);
-        model.addAttribute("magazine", magazine);
+        model.addAttribute("articles", magazine.getArticles());
+        model.addAttribute("magazineId", magazine.getId());
         return "articles";
     }
 

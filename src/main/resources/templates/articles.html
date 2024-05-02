@@ -11,12 +11,12 @@
 <!-- Header -->
 <nav class="navbar navbar-expand navbar-light bg-light">
 	<a class="navbar-brand" th:href="@{/magazines}">iMagazines</a>
-	<form class="form-inline my-2 my-lg-0 ml-auto" method="post" th:action="@{/magazines/search}">
+	<form class="form-inline my-2 my-lg-0 ml-auto" method="post" th:action="@{/articles/search}">
+		<input type="hidden" name="magazineId" th:value="${magazineId}">
 		<input class="form-control mr-sm-2" type="search" name="request" placeholder="Search" aria-label="Search">
 		<select class="form-control mr-sm-2" name="option">
 			<option value="title">Title</option>
 			<option value="theme">Theme</option>
-			<option value="author">Author</option>
 		</select>
 		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 	</form>
@@ -26,8 +26,8 @@
 <div class="container mt-5">
 	<div class="row">
 		<!-- Magazine Article Cards -->
-		<div class="col-md-4 mb-4" th:each="article : ${magazine.articles}">
-			<a th:href="@{'/article/' + ${article.id}}" style="text-decoration: none; color: black">
+		<div class="col-md-4 mb-4" th:each="article : ${articles}">
+			<a th:href="@{'/articles/' + ${article.id}}" style="text-decoration: none; color: black">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title" th:utext="${article.title}"></h5>
