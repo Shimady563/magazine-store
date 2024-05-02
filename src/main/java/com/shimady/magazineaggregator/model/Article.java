@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
@@ -27,10 +30,17 @@ public class Article {
     @Column(name = "text")
     private String text;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "magazine_id",
             foreignKey = @ForeignKey(name = "fk_article_magazine")
     )
     private Magazine magazine;
+
+    public Article( String title,  String theme, String text) {
+        this.text = text;
+        this.theme = theme;
+        this.title = title;
+    }
 }
