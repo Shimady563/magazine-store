@@ -5,6 +5,7 @@ import com.shimady.magazineaggregator.model.Magazine;
 import com.shimady.magazineaggregator.repository.MagazineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,12 +27,24 @@ public class MagazineService {
         return magazineRepository.findByAuthor(author);
     }
 
+    @Transactional
     public void saveMagazine(Magazine magazine) {
         magazineRepository.save(magazine);
     }
 
+    @Transactional(readOnly = true)
     public Magazine getMagazineWithArticlesById(Long magazineId) {
         return magazineRepository.findAndFetchArticlesById(magazineId)
                 .orElseThrow(() -> new RuntimeException("Magazine not found"));
+    }
+
+    public Magazine getMagazineById(Long magazineId) {
+        return magazineRepository.findById(magazineId)
+                .orElseThrow(() -> new RuntimeException("Magazine not found"));
+    }
+
+    @Transactional
+    public void deleteMagazine(Magazine magazine) {
+        magazineRepository.delete(magazine);
     }
 }

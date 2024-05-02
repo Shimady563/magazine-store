@@ -13,13 +13,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/magazines")
 public class MagazineController {
-
 
     private final MagazineService magazineService;
     private final AuthorService authorService;
@@ -35,6 +33,13 @@ public class MagazineController {
         List<Magazine> magazines = magazineService.getAllMagazines();
         model.addAttribute("magazines", magazines);
         return "magazines";
+    }
+
+    @GetMapping("/{id}")
+    public String getMagazineById(@PathVariable Long id, Model model) {
+        Magazine magazine = magazineService.getMagazineWithArticlesById(id);
+        model.addAttribute("magazine", magazine);
+        return "articles";
     }
 
     @GetMapping("/user")
@@ -64,17 +69,25 @@ public class MagazineController {
         return "edit-magazine";
     }
 
-    @PostMapping("/edit/*")
+    @PostMapping("/edit/{id}")
     public String updateMagazine(
-            @RequestParam Long id,
+            @PathVariable Long id,
             @RequestParam String title,
             @RequestParam String theme,
             @RequestParam(value = "articleTitle[]") String[] articleTitles,
             @RequestParam(value = "articleTheme[]") String[] articleThemes,
             @RequestParam(value = "articleContent[]") String[] articleContents,
+            Authentication authentication,
             RedirectAttributes redirectAttributes
     ) {
         Magazine magazine = magazineService.getMagazineWithArticlesById(id);
+        if (!magazine.getAuthor().getId()
+                .equals(
+                        ((Author) authentication.getPrincipal()).getId())
+        ) {
+            throw new RuntimeException("Access denied");
+        }
+
         magazine.setTitle(title);
         magazine.setSubject(theme);
 
@@ -87,8 +100,22 @@ public class MagazineController {
         }
 
         magazineService.saveMagazine(magazine);
-        redirectAttributes.addFlashAttribute("message", "magazine successfully updated");
+        redirectAttributes.addFlashAttribute("message", "Magazine successfully updated");
         return "redirect:/magazines/edit/" + magazine.getId();
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteMagazine(@PathVariable Long id, Authentication authentication) {
+        Magazine magazine = magazineService.getMagazineById(id);
+        if (!magazine.getAuthor().getId()
+                .equals(
+                        ((Author) authentication.getPrincipal()).getId())
+        ) {
+            throw new RuntimeException("Access denied");
+        }
+
+        magazineService.deleteMagazine(magazine);
+        return "redirect:/magazines/user";
     }
 
     @PostMapping("/create")
@@ -116,7 +143,7 @@ public class MagazineController {
         }
 
         authorService.updateAuthor(author);
-        redirectAttributes.addFlashAttribute("message", "magazine successfully created");
+        redirectAttributes.addFlashAttribute("message", "Magazine successfully created");
         return "redirect:/magazines/create";
     }
 }
