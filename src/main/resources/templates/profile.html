@@ -11,13 +11,13 @@
 <nav class="navbar navbar-expand navbar-light bg-light">
 	<a class="navbar-brand" th:href="@{/magazines}">iMagazines</a>
 	<div class="navbar-nav mx-auto">
-		<a class="nav-item nav-link" href="#">User's Magazines</a>
+		<a class="nav-item nav-link" th:href="@{/magazines/user}">User's Magazines</a>
 	</div>
 	<form class="navbar-nav mr-2" method="post" th:action="@{/users/logout}">
 		<button class="btn btn-secondary" type="submit">Logout</button>
 	</form>
 	<div class="navbar-nav">
-		<a class="btn btn-secondary" th:href="@{magazines/create}">Create magazine</a>
+		<a class="btn btn-secondary" th:href="@{/magazines/create}">Create magazine</a>
 	</div>
 </nav>
 <!-- Main Body -->

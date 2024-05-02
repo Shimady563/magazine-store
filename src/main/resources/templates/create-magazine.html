@@ -13,7 +13,7 @@
 
 <div class="container mt-5">
 	<h1>Create Magazine</h1>
-	<form method="post" th:action="@{''}">
+	<form method="post" th:action="@{/magazines/create}">
 		<div class="form-group">
 			<label for="title">Magazine Title:</label>
 			<input type="text" class="form-control" id="title" name="title" required>
@@ -29,6 +29,12 @@
 					<label for="articleTitle1">Article Title:</label>
 					<input type="text" class="form-control" id="articleTitle1" name="articleTitle[]" required>
 				</div>
+
+				<div class="form-group">
+					<label for="articleTheme1">Article Theme:</label>
+					<input type="text" class="form-control" id="articleTheme1" name="articleTheme[]" required>
+				</div>
+
 				<div class="form-group">
 					<label for="articleContent1">Article Content:</label>
 					<textarea class="form-control" id="articleContent1" name="articleContent[]" required></textarea>
@@ -38,6 +44,8 @@
 		<div class="text-right">
 			<button type="button" class="btn btn-primary" id="addArticle">+</button>
 		</div>
+		<p th:if="${message}" style="color: red; font-size: 12px; margin: 0" th:text="${message}">
+		</p>
 		<button type="submit" class="btn btn-success mt-3">Create Magazine</button>
 	</form>
 </div>
@@ -53,6 +61,10 @@
             <div class="form-group">
                 <label for="articleTitle${articleCount}">Article Title:</label>
                 <input type="text" class="form-control" id="articleTitle${articleCount}" name="articleTitle[]" required>
+            </div>
+            <div class="form-group">
+                <label for="articleTheme${articleCount}">Article Theme:</label>
+                <input type="text" class="form-control" id="articleTheme${articleCount}" name="articleTheme[]" required>
             </div>
             <div class="form-group">
                 <label for="articleContent${articleCount}">Article Content:</label>
