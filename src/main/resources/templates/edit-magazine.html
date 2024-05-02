@@ -16,7 +16,6 @@
 	<h1>Magazine</h1>
 	<!-- Magazine Title and Theme Form -->
 	<form th:action="@{''}" method="post">
-		<input type="hidden" name="id" th:value="${magazine.id}"></input>
 		<div class="form-group">
 			<label for="title">Magazine Title:</label>
 			<input type="text" class="form-control" id="title" name="title" th:value="${magazine.title}" required>
@@ -30,13 +29,13 @@
 		<div th:each="article: ${magazine.articles}" class="card mb-3">
 			<div class="card-body">
 				<div class="form-group">
-					<label th:for="${article.id} + ' title'">Article Title:</label>
-					<input type="text" class="form-control" th:id="${article.id} + ' title'" name="articleTitle[]" th:value="${article.title}" required>
+					<label th:for="${article.id} + 'title'">Article Title:</label>
+					<input type="text" class="form-control" th:id="${article.id} + 'title'" name="articleTitle[]" th:value="${article.title}" required>
 				</div>
 
 				<div class="form-group">
-					<label th:for="${article.id} + ' theme'">Article Theme:</label>
-					<input type="text" class="form-control" th:id="${article.id} + ' theme'" name="articleTheme[]" th:value="${article.theme}" required>
+					<label th:for="${article.id} + 'theme'">Article Theme:</label>
+					<input type="text" class="form-control" th:id="${article.id} + 'theme'" name="articleTheme[]" th:value="${article.theme}" required>
 				</div>
 
 				<div class="form-group">

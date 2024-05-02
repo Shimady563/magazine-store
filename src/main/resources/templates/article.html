@@ -25,6 +25,7 @@
 	<div class="row">
 		<div class="col-12">
 			<h2 th:utext="${article.title}">Article title</h2>
+			<p class="card-text">Theme: <span th:utext="${article.theme}">Theme</span></p>
 			<div class="article-content">
 				<p th:utext="${article.text}">Article text</p>
 			</div>

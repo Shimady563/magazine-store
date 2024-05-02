@@ -27,8 +27,10 @@
 						th:utext="${magazine.author.firstName + ' ' + magazine.author.lastName}">Author</span></p>
 					<!-- Links for Editing and Deleting Magazine -->
 					<div class="btn-group">
-						<a th:href="@{'/magazines/edit/' + ${magazine.getId()}}" class="btn btn-primary">Edit Magazine</a>
-						<a th:href="@{'/magazines/delete/' + ${magazine.getId()}}" class="btn btn-danger">Delete Magazine</a>
+						<a th:href="@{'/magazines/edit/' + ${magazine.getId()}}" class="btn btn-primary">Edit</a>
+						<form method="post" th:action="@{'/magazines/delete/' + ${magazine.getId()}}">
+							<button  class="btn btn-danger">Delete</button>
+						</form>
 					</div>
 				</div>
 			</div>
