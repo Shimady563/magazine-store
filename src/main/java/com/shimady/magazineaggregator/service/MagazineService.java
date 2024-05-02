@@ -48,6 +48,7 @@ public class MagazineService {
         magazineRepository.delete(magazine);
     }
 
+    @Transactional(readOnly = true)
     public List<Magazine> getAllByMagazinesByOption(String request, String option) {
         return switch (option) {
             case "title" -> magazineRepository.findALlByTitleStartingWithIgnoreCase(request);
