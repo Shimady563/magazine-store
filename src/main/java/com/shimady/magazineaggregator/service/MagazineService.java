@@ -24,7 +24,7 @@ public class MagazineService {
     }
 
     public List<Magazine> getMagazinesByAuthor(Author author) {
-        return magazineRepository.findByAuthor(author);
+        return magazineRepository.findAllByAuthor(author);
     }
 
     @Transactional
@@ -46,5 +46,14 @@ public class MagazineService {
     @Transactional
     public void deleteMagazine(Magazine magazine) {
         magazineRepository.delete(magazine);
+    }
+
+    public List<Magazine> getAllByMagazinesByOption(String request, String option) {
+        return switch (option) {
+            case "title" -> magazineRepository.findALlByTitleStartingWithIgnoreCase(request);
+            case "subject" -> magazineRepository.findALlBySubjectStartingWithIgnoreCase(request);
+            case "author" -> magazineRepository.findALlByAuthorFirstNameStartingWithOrAuthorLastNameStartingWithAllIgnoreCase(request, request);
+            default -> magazineRepository.findAll();
+        };
     }
 }

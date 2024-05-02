@@ -69,6 +69,13 @@ public class MagazineController {
         return "edit-magazine";
     }
 
+    @PostMapping("/search")
+    public String searchForMagazines(@RequestParam String request, @RequestParam String option, Model model) {
+        List<Magazine> magazines = magazineService.getAllByMagazinesByOption(request, option);
+        model.addAttribute("magazines", magazines);
+        return "magazines";
+    }
+
     @PostMapping("/edit/{id}")
     public String updateMagazine(
             @PathVariable Long id,
