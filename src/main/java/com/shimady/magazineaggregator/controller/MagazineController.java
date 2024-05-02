@@ -10,12 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,8 +46,49 @@ public class MagazineController {
     }
 
     @GetMapping("/create")
-    public String showCreateMagazineForm() {
+    public String showCreateMagazinePage() {
         return "create-magazine";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String getEditingPage(@PathVariable(value = "id") Long magazineId, Authentication authentication, ModelMap model) {
+        Magazine magazine = magazineService.getMagazineWithArticlesById(magazineId);
+        if (!magazine.getAuthor().getId()
+                .equals(
+                ((Author) authentication.getPrincipal()).getId())
+        ) {
+            throw new RuntimeException("Access denied");
+        }
+
+        model.addAttribute("magazine", magazine);
+        return "edit-magazine";
+    }
+
+    @PostMapping("/edit/*")
+    public String updateMagazine(
+            @RequestParam Long id,
+            @RequestParam String title,
+            @RequestParam String theme,
+            @RequestParam(value = "articleTitle[]") String[] articleTitles,
+            @RequestParam(value = "articleTheme[]") String[] articleThemes,
+            @RequestParam(value = "articleContent[]") String[] articleContents,
+            RedirectAttributes redirectAttributes
+    ) {
+        Magazine magazine = magazineService.getMagazineWithArticlesById(id);
+        magazine.setTitle(title);
+        magazine.setSubject(theme);
+
+        List<Article> articles = magazine.getArticles();
+        for (int i = 0; i < articleTitles.length; i++) {
+            Article article = articles.get(i);
+            article.setTitle(articleTitles[i]);
+            article.setTheme(articleThemes[i]);
+            article.setText(articleContents[i]);
+        }
+
+        magazineService.saveMagazine(magazine);
+        redirectAttributes.addFlashAttribute("message", "magazine successfully updated");
+        return "redirect:/magazines/edit/" + magazine.getId();
     }
 
     @PostMapping("/create")

@@ -18,10 +18,12 @@ public class Magazine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @NotBlank
     @Column(name = "title")
     private String title;
 
+    @Setter
     @NotBlank
     @Column(name = "subject")
     private String subject;
@@ -37,7 +39,7 @@ public class Magazine {
     @OneToMany(mappedBy = "magazine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> articles = new ArrayList<>();
 
-    public Magazine(String subject, String title) {
+    public Magazine(String title, String subject) {
         this.subject = subject;
         this.title = title;
     }
@@ -50,5 +52,10 @@ public class Magazine {
     public void removeArticle(Article article) {
         article.setMagazine(null);
         this.articles.remove(article);
+    }
+
+    public void setArticles(List<Article> articles) {
+        articles.forEach(article -> article.setMagazine(this));
+        this.articles = articles;
     }
 }

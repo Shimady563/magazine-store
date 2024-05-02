@@ -29,4 +29,9 @@ public class MagazineService {
     public void saveMagazine(Magazine magazine) {
         magazineRepository.save(magazine);
     }
+
+    public Magazine getMagazineWithArticlesById(Long magazineId) {
+        return magazineRepository.findAndFetchArticlesById(magazineId)
+                .orElseThrow(() -> new RuntimeException("Magazine not found"));
+    }
 }

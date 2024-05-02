@@ -18,14 +18,17 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @NotBlank
     @Column(name = "title")
     private String title;
 
+    @Setter
     @NotBlank
     @Column(name = "theme")
     private String theme;
 
+    @Setter
     @NotBlank
     @Column(name = "text")
     private String text;
