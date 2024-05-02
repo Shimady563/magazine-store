@@ -10,16 +10,14 @@
 <!-- Header -->
 <nav class="navbar navbar-expand navbar-light bg-light">
 	<a class="navbar-brand" th:href="@{/magazines}">iMagazines</a>
-	<form class="form-inline my-2 my-lg-0 ml-auto" method="post" th:action="@{/magazines/}">
-		<p sec:authorize="isAuthenticated()">Profile:
-			<a class="mr-5" th:utext="${#authentication.principal.username}"
-			   th:href="@{/users/profile}"></a>
-		</p>
+	<form class="form-inline my-2 my-lg-0 ml-auto" method="post" th:action="@{/magazines/search}">
+		<a sec:authorize="isAnonymous()" class="btn btn-secondary mr-5" th:href="@{/users/login}">Login</a>
+		<a sec:authorize="isAuthenticated()" class="btn btn-secondary mr-5" th:href="@{/users/profile}">Profile</a>
 
 		<input class="form-control mr-sm-2" type="search" name="request" placeholder="Search" aria-label="Search">
 		<select class="form-control mr-sm-2" name="option">
 			<option value="title">Title</option>
-			<option value="theme">Theme</option>
+			<option value="subject">Theme</option>
 			<option value="author">Author</option>
 		</select>
 		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -31,15 +29,16 @@
 	<div class="row">
 		<!-- Magazine Cards -->
 		<div class="col-md-4 mb-4" th:each="magazine : ${magazines}">
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title" th:utext="${magazine.title}">
-						<a th:href="@{'/' + ${magazine.id}}">Magazine Title</a>
-					</h5>
-					<p class="card-text">Theme: <span th:utext="${magazine.subject}">Theme</span></p>
-					<p class="card-text">Author: <span th:utext="${magazine.author}">Author</span></p>
+			<a th:href="@{'/magazines/' + ${magazine.id}}" style="text-decoration: none; color: black">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title" th:utext="${magazine.title}"></h5>
+						<p class="card-text">Theme: <span th:utext="${magazine.subject}">Theme</span></p>
+						<p class="card-text">Author: <span th:utext="${magazine.author.firstName + ' ' + magazine.author.lastName}">Author</span>
+						</p>
+					</div>
 				</div>
-			</div>
+			</a>
 		</div>
 	</div>
 </div>

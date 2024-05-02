@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -42,8 +43,13 @@ public class Author implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    private Set<Magazine> magazines;
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Magazine> magazines = new ArrayList<>();
+
+    public void addMagazine(Magazine magazine) {
+        magazine.setAuthor(this);
+        magazines.add(magazine);
+    }
 
     public Author(String username, String firstName, String lastName, String email, String password) {
         this.username = username;

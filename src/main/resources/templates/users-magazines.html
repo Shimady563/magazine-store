@@ -23,11 +23,14 @@
 						<a th:href="@{'/' + ${magazine.id}}">Magazine Title</a>
 					</h5>
 					<p class="card-text">Theme: <span th:utext="${magazine.subject}">Theme</span></p>
-					<p class="card-text">Author: <span th:utext="${magazine.author}">Author</span></p>
+					<p class="card-text">Author: <span
+						th:utext="${magazine.author.firstName + ' ' + magazine.author.lastName}">Author</span></p>
 					<!-- Links for Editing and Deleting Magazine -->
 					<div class="btn-group">
-						<a href="#" class="btn btn-primary">Edit Magazine</a>
-						<a href="#" class="btn btn-danger">Delete Magazine</a>
+						<a th:href="@{'/magazines/edit/' + ${magazine.getId()}}" class="btn btn-primary">Edit</a>
+						<form method="post" th:action="@{'/magazines/delete/' + ${magazine.getId()}}">
+							<button  class="btn btn-danger">Delete</button>
+						</form>
 					</div>
 				</div>
 			</div>
