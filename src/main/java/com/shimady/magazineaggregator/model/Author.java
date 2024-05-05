@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,22 +25,27 @@ public class Author implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @NotBlank
     @Column(name = "username", unique = true)
     private String username;
 
+    @Setter
     @NotBlank
     @Column(name = "first_name")
     private String firstName;
 
+    @Setter
     @NotBlank
     @Column(name = "last_name")
     private String lastName;
 
+    @Setter
     @Email
     @Column(name = "email", unique = true)
     private String email;
 
+    @Setter
     @Column(name = "password")
     private String password;
 
