@@ -1,5 +1,7 @@
 package com.shimady.magazineaggregator.service;
 
+import com.shimady.magazineaggregator.exception.ResourceNotFoundException;
+import com.shimady.magazineaggregator.exception.UserAlreadyExistsException;
 import com.shimady.magazineaggregator.model.Author;
 import com.shimady.magazineaggregator.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +36,13 @@ public class AuthorService implements UserDetailsService {
     @Transactional(readOnly = true)
     public Author getAuthorByUsername(String username) {
         return authorRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found"));
     }
 
     @Transactional(readOnly = true)
     public Author getAuthorById(Long id) {
         return authorRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User " + id + " not found"));
     }
 
     @Transactional
@@ -48,7 +50,7 @@ public class AuthorService implements UserDetailsService {
         if (authorRepository.findByUsername(author.getUsername()).isEmpty()) {
             authorRepository.save(author);
         } else {
-            throw new IllegalArgumentException("User already exists");
+            throw new UserAlreadyExistsException("User " + author.getUsername() + " already exists");
         }
     }
 

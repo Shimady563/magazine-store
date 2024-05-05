@@ -1,5 +1,6 @@
 package com.shimady.magazineaggregator.service;
 
+import com.shimady.magazineaggregator.exception.ResourceNotFoundException;
 import com.shimady.magazineaggregator.model.Author;
 import com.shimady.magazineaggregator.model.Magazine;
 import com.shimady.magazineaggregator.repository.MagazineRepository;
@@ -35,12 +36,12 @@ public class MagazineService {
     @Transactional(readOnly = true)
     public Magazine getMagazineWithArticlesById(Long magazineId) {
         return magazineRepository.findAndFetchArticlesById(magazineId)
-                .orElseThrow(() -> new RuntimeException("Magazine not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Magazine " + magazineId + " not found"));
     }
 
     public Magazine getMagazineById(Long magazineId) {
         return magazineRepository.findById(magazineId)
-                .orElseThrow(() -> new RuntimeException("Magazine not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Magazine " + magazineId + " not found"));
     }
 
     @Transactional

@@ -81,19 +81,21 @@ public class AuthorController {
             @RequestParam String password,
             RedirectAttributes attributes
     ) {
-        if (password.isBlank()) {
-            attributes.addFlashAttribute("message", "You must write you old password or change it");
+        Author author = authorService.getAuthorById(id);
+
+        if (!password.isBlank() && password.length() < 3) {
+            attributes.addFlashAttribute("message", "Password is too short");
             return "redirect:/users/profile";
         }
 
-        Author author = new Author(
-                id,
-                username,
-                firstName,
-                lastName,
-                email,
-                passwordEncoder.encode(password)
-        );
+        author.setUsername(username);
+        author.setFirstName(firstName);
+        author.setLastName(lastName);
+        author.setEmail(email);
+
+        if (!password.isBlank()) {
+            author.setPassword(passwordEncoder.encode(password));
+        }
 
         authorService.updateAuthor(author);
         attributes.addFlashAttribute("message", "Credentials are successfully changed");
