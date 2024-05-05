@@ -1,5 +1,6 @@
 package com.shimady.magazineaggregator.controller;
 
+import com.shimady.magazineaggregator.exception.AccessDeniedException;
 import com.shimady.magazineaggregator.model.Article;
 import com.shimady.magazineaggregator.model.Author;
 import com.shimady.magazineaggregator.model.Magazine;
@@ -63,7 +64,7 @@ public class MagazineController {
                 .equals(
                 ((Author) authentication.getPrincipal()).getId())
         ) {
-            throw new RuntimeException("Access denied");
+            throw new AccessDeniedException("Access to resource denied");
         }
 
         model.addAttribute("magazine", magazine);
@@ -93,7 +94,7 @@ public class MagazineController {
                 .equals(
                         ((Author) authentication.getPrincipal()).getId())
         ) {
-            throw new RuntimeException("Access denied");
+            throw new AccessDeniedException("Access to resource denied");
         }
 
         magazine.setTitle(title);
@@ -119,7 +120,7 @@ public class MagazineController {
                 .equals(
                         ((Author) authentication.getPrincipal()).getId())
         ) {
-            throw new RuntimeException("Access denied");
+            throw new AccessDeniedException("Access to resource denied");
         }
 
         magazineService.deleteMagazine(magazine);
